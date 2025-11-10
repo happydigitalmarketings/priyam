@@ -3,19 +3,6 @@ import Head from 'next/head';
 import AdminLayout from '../../components/AdminLayout';
 import { verifyToken } from '../../lib/auth';
 
-import { renameSync } from 'fs';
-import { join } from 'path';
-
-// Rename the file to match the route in AdminLayout
-try {
-  renameSync(
-    join(process.cwd(), 'pages/admin/blog.js'),
-    join(process.cwd(), 'pages/admin/blogs.js')
-  );
-} catch (error) {
-  // File might already be renamed
-}
-
 export default function AdminBlog({ user }) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
