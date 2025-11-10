@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Banner from '../components/Banner';
 import ProductCard from '../components/ProductCard';
@@ -14,8 +13,6 @@ export default function Home({products}){
         <meta name="description" content="Discover our exquisite collection of traditional Kerala sarees, handcrafted with love and heritage" />
         <link rel="icon" href="/images/logo-symbol.png" />
       </Head>
-      
-      <Header />
       
       <main className="flex-grow">
         {/* Hero Section */}

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import Header from '../../components/Header';
+import { useState } from 'react';
 export default function ProductPage({product}){
   const router = useRouter();
   if (router.isFallback) return <div>Loading...</div>;

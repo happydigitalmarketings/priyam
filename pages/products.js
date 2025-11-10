@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import { useState } from 'react';
-import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ProductCard from '../components/ProductCard';
 
@@ -18,8 +17,6 @@ export default function Products({ products }) {
         <title>Our Collections | Traditional Sarees</title>
         <meta name="description" content="Explore our beautiful collection of traditional and modern sarees" />
       </Head>
-
-      <Header />
 
       <main className="flex-grow container mx-auto px-4 py-8">
         <div className="text-center mb-12">

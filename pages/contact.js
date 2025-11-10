@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Head from 'next/head';
-import Header from '../components/Header';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -65,8 +64,6 @@ export default function ContactPage() {
         <title>Contact Us</title>
         <meta name="description" content="Get in touch with us" />
       </Head>
-
-      <Header />
 
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">

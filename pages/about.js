@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Image from 'next/image';
 
@@ -10,8 +9,6 @@ export default function About() {
         <title>About Us - Kerala Sarees</title>
         <meta name="description" content="Learn about our heritage, values, and commitment to preserving traditional Kerala saree craftsmanship" />
       </Head>
-
-      <Header />
 
       <main className="flex-grow">
         {/* Hero Section */}

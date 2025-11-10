@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 export default function Blog({ posts }) {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white pt-4">
       <Head>
         <title>Blog | Minukki Sarees</title>
         <meta name="description" content="Discover the elegance of Indian sarees through our curated articles" />
@@ -27,42 +27,44 @@ export default function Blog({ posts }) {
           {posts?.map((post) => (
             <div key={post._id} className="group cursor-pointer">
               <Link href={`/blog/${post.slug}`}>
-                <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
-                  <Image
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    src={post.image}
-                    alt={post.title}
-                    width={600}
-                    height={450}
-                  />
-                  <div className="absolute inset-0 bg-black/20 transition-opacity duration-300 group-hover:opacity-0"/>
-                </div>
-                <div className="mt-6 flex flex-col">
-                  <span className="text-sm text-[#8B4513] font-medium">
-                    {new Date(post.createdAt).toLocaleDateString('en-US', {
-                      month: 'long',
-                      day: 'numeric',
-                      year: 'numeric'
-                    })}
-                  </span>
-                  <h2 className="mt-2 text-xl font-semibold text-gray-900 group-hover:text-[#8B4513] line-clamp-2">
-                    {post.title}
-                  </h2>
-                  <p className="mt-3 text-base text-gray-500 line-clamp-3">
-                    {post.content.substring(0, 150)}...
-                  </p>
-                  <div className="mt-4 flex items-center justify-between">
-                    <span className="text-sm font-medium text-[#8B4513]">
-                      By {post.author}
-                    </span>
-                    <span className="inline-flex items-center text-sm font-medium text-[#8B4513] group-hover:translate-x-1 transition-transform duration-200">
-                      Read More
-                      <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </span>
+                <>
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
+                    <Image
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      src={post.image}
+                      alt={post.title}
+                      width={600}
+                      height={450}
+                    />
+                    <div className="absolute inset-0 bg-black/20 transition-opacity duration-300 group-hover:opacity-0"/>
                   </div>
-                </div>
+                  <div className="mt-6 flex flex-col">
+                    <span className="text-sm text-[#8B4513] font-medium">
+                      {new Date(post.createdAt).toLocaleDateString("en-US", {
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric"
+                      })}
+                    </span>
+                    <h2 className="mt-2 text-xl font-semibold text-gray-900 group-hover:text-[#8B4513] line-clamp-2">
+                      {post.title}
+                    </h2>
+                    <p className="mt-3 text-base text-gray-500 line-clamp-3">
+                      {post.content.substring(0, 150)}...
+                    </p>
+                    <div className="mt-4 flex items-center justify-between">
+                      <span className="text-sm font-medium text-[#8B4513]">
+                        By {post.author}
+                      </span>
+                      <span className="inline-flex items-center text-sm font-medium text-[#8B4513] group-hover:translate-x-1 transition-transform duration-200">
+                        Read More
+                        <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                </>
               </Link>
             </div>
           ))}
@@ -97,7 +99,7 @@ export default function Blog({ posts }) {
 export async function getServerSideProps({ req }) {
   try {
     // Construct base URL from the request
-    const protocol = req.headers['x-forwarded-proto'] || 'http';
+    const protocol = req.headers["x-forwarded-proto"] || "http";
     const baseUrl = `${protocol}://${req.headers.host}`;
     
     const response = await fetch(`${baseUrl}/api/blog`);
@@ -108,7 +110,7 @@ export async function getServerSideProps({ req }) {
       },
     };
   } catch (error) {
-    console.error('Error fetching blog posts:', error);
+    console.error("Error fetching blog posts:", error);
     return {
       props: {
         posts: [],

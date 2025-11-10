@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import Header from '../../components/Header';
 import { useRouter } from 'next/router';
 
 export default function BlogPostPage({ post }) {
@@ -21,7 +20,6 @@ export default function BlogPostPage({ post }) {
   if (!post) {
     return (
       <div className="min-h-screen bg-white">
-        <Header />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
           <h1 className="text-2xl font-semibold text-gray-900">Article not found</h1>
           <p className="mt-2 text-gray-600">The article you're looking for doesn't exist.</p>
@@ -42,8 +40,6 @@ export default function BlogPostPage({ post }) {
         <title>{post.title} | Minukki Blog</title>
         <meta name="description" content={post.content.substring(0, 160)} />
       </Head>
-
-      <Header />
 
       {/* Breadcrumb */}
       <div className="bg-gray-50 border-b">

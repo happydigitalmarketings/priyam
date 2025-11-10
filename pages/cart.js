@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Header from '../components/Header';
 import CartItem from '../components/CartItem';
 import { useRouter } from 'next/router';
 export default function CartPage(){
@@ -12,7 +11,6 @@ export default function CartPage(){
   const total = cart.reduce((s,i)=>s + i.qty * i.price, 0);
   return (
     <div>
-      <Header />
       <main className="max-w-4xl mx-auto p-4">
         <h1 className="text-2xl font-bold mb-4">Cart</h1>
         <div className="space-y-4">
