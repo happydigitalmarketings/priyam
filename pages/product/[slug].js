@@ -16,7 +16,7 @@ export default function ProductPage({ product }) {
   return (
     <div>
       <Head><title>{product.title} - MyStore</title></Head>
-      <Header />
+    
       <main className="max-w-4xl mx-auto p-4">
         <div className="grid md:grid-cols-2 gap-6 bg-white rounded shadow p-6">
           <div className="flex items-center justify-center bg-gray-100 h-80">{product.images?.[0] ? <img src={product.images[0]} alt={product.title} /> : 'No image'}</div>

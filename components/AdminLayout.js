@@ -20,16 +20,7 @@ export default function AdminLayout({ children, user }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
-              {/* Logo */}
-              <Link href="/admin" className="flex items-center">
-                <Image
-                  src="/images/minukki-logo.png"
-                  alt="Minukki"
-                  width={120}
-                  height={40}
-                  className="h-8 w-auto"
-                />
-              </Link>
+             
             </div>
             
             {/* Admin Profile */}

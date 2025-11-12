@@ -54,11 +54,9 @@ export default function Footer() {
 
    <div>
               <h3 className="text-lg font-semibold mb-4">Payment</h3>
-          <img src="/images/payment/visa.png" alt="Visa" className="h-8" />
-          <img src="/images/payment/mastercard.png" alt="Mastercard" className="h-8" />
-          <img src="/images/payment/razorpay.png" alt="Razorpay" className="h-8" />
-          <img src="/images/payment/upi.png" alt="UPI" className="h-8" />
-          <img src="/images/payment/netbanking.png" alt="Net Banking" className="h-8" />
+        
+
+            <img src="/images/payment/paymenticons.png" alt="Net Banking" className="h-5" />
         </div>
 
 
