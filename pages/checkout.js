@@ -130,7 +130,7 @@ export default function Checkout() {
   if (orderPlaced) {
     return (
       <div>
-        <Header />
+    
         <main className="max-w-2xl mx-auto p-6">
           <h1 className="text-2xl font-bold mb-4">Checkout</h1>
           <div className="bg-green-100 p-4 rounded mb-4">

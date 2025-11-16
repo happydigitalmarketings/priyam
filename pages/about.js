@@ -32,10 +32,10 @@ export default function About() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div className="relative h-[500px] rounded-lg overflow-hidden">
                 <Image
-                  src="/images/about/weaver.jpg"
+                  src="/images/banner-2.jpg"
                   alt="Traditional Kerala Handloom Weaver"
                   fill
-                  className="object-cover"
+                  className=""
                   sizes="(max-width: 768px) 100vw, 50vw"
                   priority
                 />

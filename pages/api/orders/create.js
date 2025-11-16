@@ -2,6 +2,7 @@
 import connectDB from '../../../lib/db';
 import Order from '../../../models/Order';
 import Product from '../../../models/Product';
+import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {
   try {
@@ -44,6 +45,93 @@ export default async function handler(req, res) {
       paymentMethod,
       status: 'pending'
     });
+
+    // Send order confirmation email to customer (best-effort)
+    (async () => {
+      try {
+        const toEmail = shippingAddress.email || shippingAddress.emailAddress || null;
+        if (!toEmail) return;
+
+        // Create transporter using SMTP env vars if available, otherwise use Ethereal (test SMTP)
+        let transporter;
+        let usingTestAccount = false;
+        if (process.env.SMTP_HOST) {
+          transporter = nodemailer.createTransport({
+            host: process.env.SMTP_HOST,
+            port: process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : 587,
+            secure: process.env.SMTP_SECURE === 'true',
+            auth: process.env.SMTP_USER ? {
+              user: process.env.SMTP_USER,
+              pass: process.env.SMTP_PASS,
+            } : undefined,
+          });
+        } else {
+          // No SMTP configured — create an Ethereal test account and transporter
+          const testAccount = await nodemailer.createTestAccount();
+          transporter = nodemailer.createTransport({
+            host: 'smtp.ethereal.email',
+            port: 587,
+            secure: false,
+            auth: { user: testAccount.user, pass: testAccount.pass }
+          });
+          usingTestAccount = true;
+          console.log('No SMTP configured — using Ethereal test account for email preview');
+        }
+
+        const itemsHtml = (items || []).map(i => `
+          <tr>
+            <td style="padding:8px;border:1px solid #eee">${i.product?.name || i.name || ''}</td>
+            <td style="padding:8px;border:1px solid #eee;text-align:center">${i.qty}</td>
+            <td style="padding:8px;border:1px solid #eee;text-align:right">₹${(i.price||0).toLocaleString('en-IN')}</td>
+          </tr>`).join('');
+
+        const html = `
+          <h2>Thank you for your order</h2>
+          <p>Hi ${shippingAddress.name || shippingAddress.firstName || ''},</p>
+          <p>We have received your order. Order ID: <strong>#${String(order._id).slice(-6).toUpperCase()}</strong></p>
+          <table style="border-collapse:collapse;width:100%;margin-top:12px"> 
+            <thead>
+              <tr>
+                <th style="padding:8px;border:1px solid #eee;text-align:left">Product</th>
+                <th style="padding:8px;border:1px solid #eee;text-align:center">Qty</th>
+                <th style="padding:8px;border:1px solid #eee;text-align:right">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${itemsHtml}
+            </tbody>
+          </table>
+          <p style="text-align:right;font-weight:700">Total: ₹${(order.total||0).toLocaleString('en-IN')}</p>
+          <p>Shipping Address:</p>
+          <p>${shippingAddress.address || ''} ${shippingAddress.city || ''} ${shippingAddress.state || ''} ${shippingAddress.pin || ''}</p>
+          <p>If you have any questions, reply to this email.</p>
+        `;
+
+        const fromEmail = process.env.FROM_EMAIL || process.env.SMTP_USER || `no-reply@${req.headers.host}`;
+        const mailOptions = {
+          from: fromEmail,
+          to: toEmail,
+          subject: `Order confirmation — ${process.env.SITE_NAME || 'Your Store'}`,
+          html,
+        };
+        // Verify transporter connection before sending — this surfaces DNS/auth errors early
+        try {
+          await transporter.verify();
+          console.log('SMTP transporter verified');
+        } catch (verifyErr) {
+          console.error('SMTP transporter verification failed:', verifyErr && verifyErr.message ? verifyErr.message : verifyErr);
+          // still attempt to send — sendMail will likely fail and be caught below
+        }
+        if (process.env.ADMIN_EMAIL) mailOptions.bcc = process.env.ADMIN_EMAIL;
+        const info = await transporter.sendMail(mailOptions);
+        if (usingTestAccount) {
+          const previewUrl = nodemailer.getTestMessageUrl(info);
+          console.log('Order confirmation preview URL:', previewUrl);
+        }
+      } catch (err) {
+        console.error('Failed to send order confirmation email:', err && err.message ? err.message : err);
+      }
+    })();
 
   // Return the order ID and success flag
   res.status(201).json({ success: true, orderId: order._id });
