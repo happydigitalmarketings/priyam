@@ -15,7 +15,14 @@ export default async function handler(req, res) {
     await connectDB();
 
     const banners = await Banner.find({ active: true }).sort({ order: 1 }).lean();
-    res.status(200).json(banners);
+    
+    // Ensure CTA has default value for frontend
+    const bannersWithDefaults = banners.map(b => ({
+      ...b,
+      cta: b.cta || 'Shop Now'
+    }));
+    
+    res.status(200).json(bannersWithDefaults);
   } catch (error) {
     console.error('Error fetching banners:', error);
     res.status(500).json({ message: 'Error fetching banners' });

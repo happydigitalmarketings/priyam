@@ -7,6 +7,7 @@ import { verifyToken } from '../../lib/auth';
 
 export default function AdminProducts({ user }) {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState(['All']);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentCategory, setCurrentCategory] = useState('All');
@@ -22,10 +23,21 @@ export default function AdminProducts({ user }) {
         console.error('Error fetching products:', error);
         setLoading(false);
       });
-  }, []);
 
-  const categories = ['All', ...new Set(products.flatMap(p => p.categories || []))];
-  
+    // Fetch categories from API
+    fetch('/api/admin/categories')
+      .then(r => r.json())
+      .then(d => {
+        const activeCategories = d
+          .filter(c => c.active)
+          .sort((a, b) => a.order - b.order)
+          .map(c => c.name);
+        setCategories(['All', ...activeCategories]);
+      })
+      .catch(error => {
+        console.error('Error fetching categories:', error);
+      });
+  }, []);
   const filteredProducts = products.filter(p => {
     const matchesSearch = p.title.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = currentCategory === 'All' || (p.categories && p.categories.includes(currentCategory));

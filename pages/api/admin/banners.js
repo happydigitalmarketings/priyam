@@ -42,22 +42,20 @@ export default async function handler(req, res) {
     }
 
     if (req.method === 'PATCH') {
-        debugger;
       const { id, title, text, image, link, cta, order, active } = req.body;
 
       if (!id) {
         return res.status(400).json({ message: 'Banner ID is required' });
       }
 
-      console.log('PATCH request received with:', { id, title, text, image, link, cta, order, active });
-
+     
       // Fetch the existing banner
       let banner = await Banner.findById(id);
       if (!banner) {
         return res.status(404).json({ message: 'Banner not found' });
       }
 
-      console.log('Existing banner:', banner);
+
 
       // Update fields
       if (title !== undefined) banner.title = title;

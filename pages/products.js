@@ -1,14 +1,28 @@
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { CATEGORIES, nameFromSlug } from '../lib/categories';
 import Footer from '../components/Footer';
 import ProductCard from '../components/ProductCard';
 
 export default function Products({ products }) {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const categories = ['All', ...CATEGORIES.map(c => c.name)];
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch categories from public API
+  useEffect(() => {
+    fetch('/api/categories')
+      .then(r => r.json())
+      .then(data => {
+        setCategories(['All', ...data.map(c => c.name)]);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching categories:', error);
+        setLoading(false);
+      });
+  }, []);
 
   // if a category slug is provided as query param (e.g. /products?category=kasavu-sarees)
   // pre-select the matching category name
@@ -16,14 +30,29 @@ export default function Products({ products }) {
     if (!router.isReady) return;
     const { category } = router.query;
     if (category) {
-      const name = nameFromSlug(String(category));
-      if (name) setSelectedCategory(name);
+      const foundCategory = categories.find(c => 
+        c !== 'All' && c.toLowerCase().replace(/\s+/g, '-') === category
+      );
+      if (foundCategory) {
+        setSelectedCategory(foundCategory);
+      }
     }
-  }, [router.isReady, router.query]);
+  }, [router.isReady, router.query, categories]);
 
   const filteredProducts = selectedCategory === 'All' 
     ? products 
-    : products.filter(p => p.categories.includes(selectedCategory));
+    : products.filter(p => p.categories && p.categories.includes(selectedCategory));
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <main className="flex-grow container-fluid mx-auto px-4 py-8 bg-[#FDF8F1] flex items-center justify-center">
+          <div className="text-center">Loading categories...</div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -32,7 +61,7 @@ export default function Products({ products }) {
         <meta name="description" content="Explore our beautiful collection of traditional and modern sarees" />
       </Head>
 
-      <main className="flex-grow container-fluid mx-auto px-4 py-8 bg-[#FDF8F1]">
+      <main className="flex-grow container-fluid  px-4 py-8 bg-[#FDF8F1]">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Our Collections</h1>
           <p className="text-gray-600">Discover our exquisite range of handpicked sarees</p>
