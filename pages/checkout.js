@@ -118,10 +118,14 @@ export default function Checkout() {
           const rzp = new window.Razorpay(options);
           rzp.open();
         }
+        // Ensure cartUpdated event is dispatched after clearing cart
+        localStorage.removeItem('cart');
+        try { window.dispatchEvent(new Event('cartUpdated')); } catch(e) {}
       }
     } else {
       // Cash on Delivery
       localStorage.removeItem('cart');
+      try { window.dispatchEvent(new Event('cartUpdated')); } catch(e) {}
       setOrderPlaced(true);
       setOrderId(data.orderId);
     }
