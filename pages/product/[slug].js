@@ -3,6 +3,17 @@ import Head from 'next/head';
 import { useState, useEffect } from 'react';
 
 export default function ProductPage({ product }) {
+    const [related, setRelated] = useState([]);
+
+    useEffect(() => {
+      // Fetch other products for 'You might also like' section
+      fetch('/api/products')
+        .then(r => r.json())
+        .then(d => {
+          // Exclude current product
+          setRelated(d.filter(p => p._id !== product._id).slice(0, 8));
+        });
+    }, [product._id]);
   const router = useRouter();
   if (router.isFallback) return <div>Loading...</div>;
 
@@ -47,8 +58,8 @@ export default function ProductPage({ product }) {
         <title>{product.title} - Minikki</title>
       </Head>
 
-      <main className="container-fluid mx-auto p-6 bg-[#FDF8F1]">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded shadow-lg p-6">
+      <main className="container-fluid mx-auto p-6 bg-[#FDF8F1] rounded shadow-lg" >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white  p-6">
           {/* Left - Images */}
           <div>
             <div className="w-full bg-gray-50 rounded overflow-hidden mb-4" style={{minHeight: 420}}>
@@ -69,10 +80,10 @@ export default function ProductPage({ product }) {
                 <div className="text-gray-400">No photos</div>
               )}
             </div>
-          </div>
+                  </div>
 
-          {/* Right - Details */}
-          <div className="flex flex-col justify-between">
+                  {/* Right - Details */}
+                  <div className="flex flex-col justify-between">
             <div>
               <h1 className="text-3xl font-serif text-[#10223b] mb-2">{product.title}</h1>
               {product.sku && <div className="text-sm text-gray-500 mb-4">SKU: {product.sku}</div>}
@@ -205,6 +216,31 @@ export default function ProductPage({ product }) {
             </div>
           </div>
         </div>
+
+   {/* You might also like section */}
+                <div className="mt-10 bg-white " >
+                  <h2 className="text-xl font-bold mb-4 text-gray-900">You might also like</h2>
+                  <div className="flex gap-6 overflow-x-auto pb-4 hide-scrollbar">
+                    {related.map(item => (
+                      <div key={item._id} className="min-w-[180px] max-w-[200px] bg-white rounded-lg shadow p-3 flex flex-col items-center">
+                        <img src={item.images?.[0] || '/images/placeholder.png'} alt={item.title} className="w-32 h-32 object-cover rounded mb-2" />
+                        <div className="text-sm font-semibold text-gray-900 text-center line-clamp-2 mb-1">{item.title}</div>
+                        <div className="flex flex-col items-center mb-1">
+                          {item.mrp && (
+                            <span className="text-xs text-gray-400 line-through">M.R.P. ₹{item.mrp.toLocaleString('en-IN')}</span>
+                          )}
+                          <span className="text-base font-bold text-[#8B4513]">₹{item.price.toLocaleString('en-IN')}</span>
+                        </div>
+                        {item.mrp && item.price < item.mrp && (
+                          <span className="text-xs font-bold text-red-600">-{Math.round(((item.mrp - item.price) / item.mrp) * 100)}% OFF</span>
+                        )}
+                        <button onClick={() => window.location.href = `/product/${item.slug}`} className="mt-2 px-3 py-1 bg-orange-500 hover:bg-orange-600 text-white text-xs rounded shadow transition-colors">View</button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+
       </main>
     </div>
   );

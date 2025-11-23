@@ -251,9 +251,9 @@ export default function Checkout() {
   }
 
   return (
-    <div>
+    <div className='bg-[#FDF8F1]'>
    
-      <main className="max-w-4xl mx-auto p-4">
+      <main className="max-w-6xl mx-auto p-4 bg-[#FDF8F1]">
         <h1 className="text-3xl font-bold mb-6">Checkout</h1>
         {errors.submit && <div className="bg-red-100 text-red-700 p-2 mb-4 rounded">{errors.submit}</div>}
         <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-8">
