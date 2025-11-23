@@ -255,7 +255,16 @@ export default function Checkout() {
   }
 
   return (
-    <div className="bg-[#FDF8F1] min-h-screen">
+    <div className="bg-[#FDF8F1] min-h-screen relative">
+      {/* Loading Overlay */}
+      {submitting && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="flex flex-col items-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#8B4513] border-opacity-80"></div>
+            <span className="mt-4 text-white text-lg font-semibold">Placing your order...</span>
+          </div>
+        </div>
+      )}
       <main className="max-w-6xl mx-auto p-4 md:p-8">
         <h1 className="text-3xl font-bold mb-8 text-center">Checkout</h1>
         {errors.submit && <div className="bg-red-100 text-red-700 p-2 mb-4 rounded text-center">{errors.submit}</div>}
