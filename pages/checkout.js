@@ -148,8 +148,8 @@ export default function Checkout() {
     };
 
     return (
-      <div>
-        <main className="max-w-4xl mx-auto p-6 bg-white">
+      <div className='bg-[#FDF8F1]'>
+        <main className="max-w-6xl mx-auto p-6 bg-white">
           {/* Success Message */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold mb-2 text-center">Your order is confirmed</h1>

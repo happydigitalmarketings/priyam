@@ -45,15 +45,6 @@ export default function ProductCard({product}) {
 
         {/* Product Info */}
         <div className="p-6">
-          {/* Categories */}
-          <div className="flex gap-2 mb-3">
-            {product.categories?.map(category => (
-              <span key={category} className="text-xs text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                {category}
-              </span>
-            ))}
-          </div>
-
           {/* Title */}
           <h3 className="font-semibold text-lg mb-2 group-hover:text-[#8B4513] transition-colors line-clamp-2">
             {product.title}
