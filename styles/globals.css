@@ -8,6 +8,37 @@ body { @apply bg-gray-50 text-gray-800; }
 /* Global Color Scheme */
 @layer components {
   .text-primary { @apply text-[#8B4513]; }
+/* Marquee banner */
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  background: #89461a;
+  color: #ffffff;
+}
+
+.marquee-track {
+  display: inline-block;
+  white-space: nowrap;
+  padding: 0.5rem 0;
+  animation: marquee 25s linear infinite;
+  animation-play-state: paused; /* default paused until visible */
+}
+.marquee-track.running { animation-play-state: running; }
+.marquee-track.paused { animation-play-state: paused; }
+.marquee-item {
+  display: inline-block;
+  padding: 0 3rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+@keyframes marquee {
+  0% { transform: translateX(100vw); }
+  100% { transform: translateX(-100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none !important; }
+}
   .bg-primary { @apply bg-[#8B4513]; }
   .hover:bg-primary-dark { @apply hover:bg-[#703810]; }
   .border-primary { @apply border-[#8B4513]; }
