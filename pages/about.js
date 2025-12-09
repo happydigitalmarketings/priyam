@@ -1,13 +1,33 @@
 import Head from 'next/head';
 import Footer from '../components/Footer';
 import Image from 'next/image';
+import { generateSchema, getBreadcrumbs } from '../lib/seo';
 
 export default function About() {
+  const breadcrumbs = getBreadcrumbs('/about');
+  const breadcrumbSchema = generateSchema('BreadcrumbList', { items: breadcrumbs });
+  
   return (
     <div className="min-h-screen flex flex-col bg-[#FDF8F1]">
       <Head>
-        <title>About Us - Kerala Sarees</title>
-        <meta name="description" content="Learn about our heritage, values, and commitment to preserving traditional Kerala saree craftsmanship" />
+        <title>About Us - Our Heritage & Mission | Minukki Sarees</title>
+        <meta name="description" content="Learn about our heritage, values, and commitment to preserving traditional Kerala saree craftsmanship. Discover our journey and mission." />
+        <meta name="keywords" content="about sarees, Kerala heritage, handloom tradition, saree craftsmanship" />
+        <meta name="robots" content="index, follow" />
+        
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.minukkisarees.com/about" />
+        <meta property="og:title" content="About Us - Our Heritage & Mission | Minukki Sarees" />
+        <meta property="og:description" content="Learn about our heritage, values, and commitment to preserving traditional Kerala saree craftsmanship." />
+
+        {/* Canonical */}
+        <link rel="canonical" href="https://www.minukkisarees.com/about" />
+        
+        {/* Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbSchema)}
+        </script>
       </Head>
 
       <main className="flex-grow">

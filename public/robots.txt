@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /checkout
+Disallow: /*.json$
+Disallow: /*?*
+Allow: /?*category*
+
+# Crawl delay
+Crawl-delay: 1
+
+# Sitemaps
+Sitemap: https://www.minukkisarees.com/sitemap.xml
+Sitemap: https://minukkisarees.com/sitemap.xml

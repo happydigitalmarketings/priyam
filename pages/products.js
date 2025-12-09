@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Footer from '../components/Footer';
 import ProductCard from '../components/ProductCard';
+import { generateSchema, getBreadcrumbs } from '../lib/seo';
 
 export default function Products({ products }) {
   const router = useRouter();
@@ -43,6 +44,9 @@ export default function Products({ products }) {
     ? products 
     : products.filter(p => p.categories && p.categories.includes(selectedCategory));
 
+  const breadcrumbs = getBreadcrumbs('/products');
+  const breadcrumbSchema = generateSchema('BreadcrumbList', { items: breadcrumbs });
+
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col">
@@ -57,8 +61,24 @@ export default function Products({ products }) {
   return (
     <div className="min-h-screen flex flex-col">
       <Head>
-        <title>Our Collections | Traditional Sarees</title>
-        <meta name="description" content="Explore our beautiful collection of traditional and modern sarees" />
+        <title>Our Collections | Traditional Sarees - Minukki Sarees</title>
+        <meta name="description" content="Explore our beautiful collection of traditional and modern sarees. Browse by category: Kasavu, Tissue, Silk, Designer, Handloom sarees and more." />
+        <meta name="keywords" content="saree collections, traditional sarees, modern sarees, Kasavu, Tissue sarees, Designer sarees" />
+        <meta name="robots" content="index, follow" />
+        
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.minukkisarees.com/products" />
+        <meta property="og:title" content="Our Collections | Traditional Sarees - Minukki Sarees" />
+        <meta property="og:description" content="Explore our beautiful collection of traditional and modern sarees." />
+
+        {/* Canonical */}
+        <link rel="canonical" href="https://www.minukkisarees.com/products" />
+        
+        {/* Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbSchema)}
+        </script>
       </Head>
 
       <main className="flex-grow container-fluid  px-4 py-8 bg-[#FDF8F1]">

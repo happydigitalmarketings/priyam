@@ -4,14 +4,42 @@ import Footer from '../components/Footer';
 import Banner from '../components/Banner';
 import ProductCard from '../components/ProductCard';
 import Image from 'next/image';
+import { generateSchema } from '../lib/seo';
 
 export default function Home({products}){
+  const organizationSchema = generateSchema('Organization');
+  
   return (
     <div className="min-h-screen flex flex-col bg-[#FDF8F1]">
       <Head>
-        <title>Kerala Sarees - Traditional Elegance</title>
-        <meta name="description" content="Discover our exquisite collection of traditional Kerala sarees, handcrafted with love and heritage" />
+        <title>Kerala Sarees - Traditional Elegance | Minukki Sarees</title>
+        <meta name="description" content="Discover our exquisite collection of traditional Kerala sarees, handcrafted with love and heritage. Kasavu, Tissue, Silk & Designer sarees." />
+        <meta name="keywords" content="Kerala sarees, Kasavu sarees, Tissue sarees, Silk sarees, Traditional sarees, Handloom sarees" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="robots" content="index, follow" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.minukkisarees.com/" />
+        <meta property="og:title" content="Kerala Sarees - Traditional Elegance | Minukki Sarees" />
+        <meta property="og:description" content="Discover our exquisite collection of traditional Kerala sarees, handcrafted with love and heritage." />
+        <meta property="og:image" content="https://www.minukkisarees.com/images/logo.jpg" />
+
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://www.minukkisarees.com/" />
+        <meta property="twitter:title" content="Kerala Sarees - Traditional Elegance | Minukki Sarees" />
+        <meta property="twitter:description" content="Discover our exquisite collection of traditional Kerala sarees, handcrafted with love and heritage." />
+        <meta property="twitter:image" content="https://www.minukkisarees.com/images/logo.jpg" />
+
+        {/* Canonical */}
+        <link rel="canonical" href="https://www.minukkisarees.com/" />
         <link rel="icon" href="/images/logo-symbol.png" />
+        
+        {/* Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify(organizationSchema)}
+        </script>
       </Head>
       
       <main className="flex-grow">
