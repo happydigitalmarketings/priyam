@@ -5,8 +5,24 @@ import { useState, useEffect } from 'react';
 
 export default function AdminLayout({ children, user, activeMenu }) {
   const router = useRouter();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+
+  // Set sidebar state based on screen size on mount
+  useEffect(() => {
+    setIsMounted(true);
+    const isDesktop = window.innerWidth >= 768;
+    setSidebarOpen(isDesktop);
+
+    const handleResize = () => {
+      const isDesktop = window.innerWidth >= 768;
+      setSidebarOpen(isDesktop);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Close sidebar when route changes
   useEffect(() => {
