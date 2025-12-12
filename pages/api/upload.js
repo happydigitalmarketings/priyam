@@ -1,6 +1,8 @@
 import { v2 as cloudinary } from "cloudinary";
 import { IncomingForm } from "formidable";
 import fs from "fs";
+import os from "os";
+import path from "path";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -38,12 +40,21 @@ export default async function handler(req, res) {
       has_api_secret: !!process.env.CLOUDINARY_API_SECRET
     });
 
+    // ✅ Use /tmp for Vercel, system temp for local
+    const uploadDir = process.env.VERCEL ? "/tmp" : os.tmpdir();
+    
+    // Ensure upload directory exists (for local development)
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+
     const form = new IncomingForm({
-      uploadDir: "/tmp",
+      uploadDir: uploadDir,
       keepExtensions: true,
       maxFileSize: 10 * 1024 * 1024,
     });
 
+    console.log("Upload directory:", uploadDir);
     console.log("Parsing form data...");
 
     const { fields, files } = await new Promise((resolve, reject) => {
@@ -95,7 +106,7 @@ export default async function handler(req, res) {
 
     console.log("Uploading to folder:", folder);
 
-    // Try using base64 upload instead of stream
+    // Use base64 upload for both local and Vercel
     const base64Image = `data:${file.mimetype || file.type};base64,${fileBuffer.toString('base64')}`;
     
     console.log("Starting Cloudinary upload...");
