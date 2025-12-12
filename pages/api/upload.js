@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  const tmpDir = os.tmpdir(); // ✅ use system temp dir
+  const tmpDir = os.tmpdir();
 
   try {
     const form = new IncomingForm({
@@ -36,15 +36,26 @@ export default async function handler(req, res) {
       });
     });
 
-    // ✅ formidable returns an object, not array
-    const file = files.image || files.file; // depends on frontend FormData key
-    if (!file) {
+    // Get the file (formidable v3+ returns arrays)
+    const fileArray = files.image || files.file;
+    if (!fileArray || fileArray.length === 0) {
       return res.status(400).json({ message: "No file uploaded" });
     }
 
-    const fileBuffer = fs.readFileSync(file.filepath);
+    const file = Array.isArray(fileArray) ? fileArray[0] : fileArray;
+    
+    // ✅ Use 'filepath' for v2, 'path' for v3+ (fallback to both)
+    const filePath = file.filepath || file.path;
+    
+    if (!filePath) {
+      return res.status(400).json({ message: "Invalid file path" });
+    }
 
-    const folder = fields.type === "banner" ? "minikki/banners" : "minikki/products";
+    const fileBuffer = fs.readFileSync(filePath);
+
+    // Get the type field (also might be an array in v3+)
+    const type = Array.isArray(fields.type) ? fields.type[0] : fields.type;
+    const folder = type === "banner" ? "minikki/banners" : "minikki/products";
 
     const result = await new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
@@ -60,7 +71,8 @@ export default async function handler(req, res) {
       stream.end(fileBuffer);
     });
 
-    fs.unlinkSync(file.filepath); // cleanup temp file
+    // Cleanup temp file
+    fs.unlinkSync(filePath);
 
     return res.status(200).json({ url: result.secure_url });
   } catch (error) {
