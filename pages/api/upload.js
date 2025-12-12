@@ -21,7 +21,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    const form = new formidable.IncomingForm({
+
+    const form = formidable({
       multiples: false,
       keepExtensions: true,
       maxFileSize: 10 * 1024 * 1024, // 10MB
