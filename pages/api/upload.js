@@ -32,7 +32,8 @@ export default async function handler(req, res) {
 
     let fileBuffer = null;
 
-    // Parse the form and buffer the file in memory
+
+    // Parse the form and buffer the file in memory, resolving only after file is fully buffered
     await new Promise((resolve, reject) => {
       form.on("file", (field, file) => {
         const chunks = [];
@@ -41,11 +42,15 @@ export default async function handler(req, res) {
         });
         file.on("end", () => {
           fileBuffer = Buffer.concat(chunks);
+          resolve(); // Only resolve after file is fully buffered
+        });
+        file.on("error", (err) => {
+          reject(err);
         });
       });
       form.parse(req, (err) => {
         if (err) reject(err);
-        else resolve();
+        // Do not resolve here; wait for file 'end' event
       });
     });
 
