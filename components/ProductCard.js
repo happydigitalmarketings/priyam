@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function ProductCard({product}) {
   return (
-    <Link href={`/product/${product.slug}`} className="block group">
+    <Link href={`/product/${encodeURIComponent(product.slug)}`} className="block group">
       <div className="bg-white rounded-lg overflow-hidden transition-all duration-300 hover:shadow-2xl transform hover:-translate-y-1">
         {/* Image Container */}
         <div className="relative h-[450px] overflow-hidden bg-gray-50">
