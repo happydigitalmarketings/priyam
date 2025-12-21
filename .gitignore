@@ -14,7 +14,10 @@ coverage/**
 /node_modules
 /.pnp
 .pnp.js
-
+/psd/
+.bson/
+/.bson
+backup/
 # testing
 /coverage
 

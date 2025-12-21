@@ -66,6 +66,13 @@ export default function ProductEdit() {
     return () => { mounted = false; };
   }, [id]);
 
+  const sanitizeSlug = (title) => {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+  };
+
   async function submit(e) {
     e.preventDefault();
     setError('');
@@ -73,7 +80,14 @@ export default function ProductEdit() {
     try {
       const endpoint = id ? `/api/products/${id}` : '/api/products';
       const method = id ? 'PUT' : 'POST';
-      const res = await fetch(endpoint, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      
+      // Always sanitize slug from title
+      const submitData = {
+        ...data,
+        slug: sanitizeSlug(data.title)
+      };
+      
+      const res = await fetch(endpoint, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(submitData) });
       if (!res.ok) {
         const txt = await res.text();
         try { const parsed = JSON.parse(txt); throw new Error(parsed.message || 'Save failed'); } catch { throw new Error(txt || `Save failed (${res.status})`); }

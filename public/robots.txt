@@ -1,15 +1,9 @@
+# *
 User-agent: *
 Allow: /
-Disallow: /admin/
-Disallow: /api/
-Disallow: /checkout
-Disallow: /*.json$
-Disallow: /*?*
-Allow: /?*category*
 
-# Crawl delay
-Crawl-delay: 1
+# Host
+Host: https://www.minukki.in
 
 # Sitemaps
 Sitemap: https://www.minukki.in/sitemap.xml
-Sitemap: https://minukki.in/sitemap.xml

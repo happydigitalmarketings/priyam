@@ -251,7 +251,7 @@ export default function ProductPage({ product }) {
                         {item.mrp && item.price < item.mrp && (
                           <span className="text-xs font-bold text-red-600">-{Math.round(((item.mrp - item.price) / item.mrp) * 100)}% OFF</span>
                         )}
-                        <button onClick={() => window.location.href = `/product/${item.slug}`} className="mt-2 px-3 py-1 bg-orange-500 hover:bg-orange-600 text-white text-xs rounded shadow transition-colors">View</button>
+                        <button onClick={() => window.location.href = `/product/${encodeURIComponent(item.slug)}`} className="mt-2 px-3 py-1 bg-orange-500 hover:bg-orange-600 text-white text-xs rounded shadow transition-colors">View</button>
                       </div>
                     ))}
                   </div>

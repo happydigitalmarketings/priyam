@@ -1,10 +1,10 @@
 import '../styles/globals.css';
 import Header from '../components/Header';
 import FloatingWhatsApp from '../components/FloatingWhatsApp';
+import CartSidebar from '../components/CartSidebar';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import BrandContext from '../lib/BrandContext';
-import Marquee from '../components/Marquee';
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
@@ -44,8 +44,8 @@ export default function App({ Component, pageProps }) {
   return (
     <BrandContext.Provider value={brand}>
       {!isAdminPage && <Header />}
-      {!isAdminPage && <Marquee />}
       {!isAdminPage && <FloatingWhatsApp />}
+      {!isAdminPage && <CartSidebar />}
       <Component {...pageProps} />
     </BrandContext.Provider>
   );
