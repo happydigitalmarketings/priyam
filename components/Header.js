@@ -73,7 +73,7 @@ export default function Header() {
                 />
               </div>
             ) : (
-              <div className="text-2xl font-bold text-green-600">🥬 Priyam</div>
+              <div className="text-2xl font-bold text-green-600">Priyam <span className='text-gray-800'>Super Market</span></div>
             )}
           </Link>
 
