@@ -1,10 +1,12 @@
 "use client";
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
 export default function Header() {
   const [cartCount, setCartCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
+  const [logoError, setLogoError] = useState(false);
 
   useEffect(() => {
     try {
@@ -59,9 +61,20 @@ export default function Header() {
         <div className="flex items-center justify-between gap-4">
           {/* Logo */}
           <Link href="/" className="flex items-center flex-shrink-0">
-            <div className="text-2xl font-bold text-green-600">
-              🥬 Priyam
-            </div>
+            {!logoError ? (
+              <div className="h-14 w-14 relative">
+                <Image
+                  src="/images/logo.png"
+                  alt="Priyam Supermarket"
+                  fill
+                  className="object-contain"
+                  priority
+                  onError={() => setLogoError(true)}
+                />
+              </div>
+            ) : (
+              <div className="text-2xl font-bold text-green-600">🥬 Priyam</div>
+            )}
           </Link>
 
           {/* Search Bar */}

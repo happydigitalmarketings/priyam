@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -7,7 +8,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Brand Section */}
           <div>
-            <h3 className="text-2xl font-bold text-green-500 mb-4">🥬 Priyam</h3>
+            <div className="h-12 w-12 relative mb-4">
+              <Image
+                src="/images/logo.png"
+                alt="Priyam Supermarket"
+                fill
+                className="object-contain"
+              />
+            </div>
             <p className="text-gray-400 text-sm">
               Fresh groceries delivered to your door. Quality guaranteed, always fresh, always affordable.
             </p>

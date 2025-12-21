@@ -11,10 +11,10 @@ export default function App({ Component, pageProps }) {
   const isAdminPage = router.pathname.startsWith('/admin');
 
   const [brand, setBrand] = useState({
-    siteName: 'Minukki Sarees',
+    siteName: 'Priyam Supermarket',
     primaryColor: '#8B4513',
     primaryColorDark: '#703810',
-    logo: '/images/logo.jpg',
+    logo: '/images/logo.png',
     slug: null,
   });
 

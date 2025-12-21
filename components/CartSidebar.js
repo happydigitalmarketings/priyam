@@ -190,6 +190,7 @@ export default function CartSidebar() {
 
             <Link
               href="/checkout"
+              onClick={() => setIsOpen(false)}
               className="w-full block text-center py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition-colors mb-2"
             >
               Proceed to Checkout

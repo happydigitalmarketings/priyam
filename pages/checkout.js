@@ -255,133 +255,212 @@ export default function Checkout() {
   }
 
   return (
-    <div className="bg-[#FDF8F1] min-h-screen relative">
+    <div className="bg-white min-h-screen">
+    
       {/* Loading Overlay */}
       {submitting && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
           <div className="flex flex-col items-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#8B4513] border-opacity-80"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-green-600 border-opacity-80"></div>
             <span className="mt-4 text-white text-lg font-semibold">Placing your order...</span>
           </div>
         </div>
       )}
-      <main className="max-w-6xl mx-auto p-4 md:p-8">
-        <h1 className="text-3xl font-bold mb-8 text-center">Checkout</h1>
-        {errors.submit && <div className="bg-red-100 text-red-700 p-2 mb-4 rounded text-center">{errors.submit}</div>}
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          {/* Billing/Shipping Details */}
-          <section className="bg-white rounded-lg shadow p-6 mb-6">
-            <h2 className="text-xl font-bold mb-4 text-[#8B4513]">Shipping & Billing Details</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block font-semibold mb-1">First name *</label>
-                <input className="w-full border border-gray-300 p-2 rounded focus:ring-[#8B4513]" value={form.firstName} onChange={e => setForm(f => ({ ...f, firstName: e.target.value }))} />
-                {errors.firstName && <div className="text-red-600 text-xs mt-1">{errors.firstName}</div>}
+
+      <main className="max-w-6xl mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-8">Checkout</h1>
+        {errors.submit && <div className="bg-red-100 text-red-700 p-3 mb-6 rounded">{errors.submit}</div>}
+
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Column - Delivery Address & Payment (2/3 width) */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Delivery Address Section */}
+            <div className="bg-white border border-gray-200 rounded-lg p-6">
+              <div className="flex items-center gap-3 mb-6">
+                <span className="text-2xl">📍</span>
+                <h2 className="text-2xl font-bold text-gray-900">Delivery Address</h2>
               </div>
-              <div>
-                <label className="block font-semibold mb-1">Last name *</label>
-                <input className="w-full border border-gray-300 p-2 rounded focus:ring-[#8B4513]" value={form.lastName} onChange={e => setForm(f => ({ ...f, lastName: e.target.value }))} />
-                {errors.lastName && <div className="text-red-600 text-xs mt-1">{errors.lastName}</div>}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-900 mb-2">Full Name <span className="text-red-500">*</span></label>
+                  <input
+                    type="text"
+                    placeholder="Enter your full name"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-50"
+                    value={form.firstName + ' ' + form.lastName}
+                    onChange={e => {
+                      const [first, ...rest] = e.target.value.split(' ');
+                      setForm(f => ({ ...f, firstName: first || '', lastName: rest.join(' ') }));
+                    }}
+                  />
+                  {(errors.firstName || errors.lastName) && <div className="text-red-600 text-xs mt-1">{errors.firstName || errors.lastName}</div>}
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-900 mb-2">Phone Number <span className="text-red-500">*</span></label>
+                  <input
+                    type="tel"
+                    placeholder="Enter phone number"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-50"
+                    value={form.phone}
+                    onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
+                  />
+                  {errors.phone && <div className="text-red-600 text-xs mt-1">{errors.phone}</div>}
+                </div>
               </div>
-            </div>
-            <div className="mt-4">
-              <label className="block font-semibold mb-1">Company name (optional)</label>
-              <input className="w-full border border-gray-300 p-2 rounded" value={form.company} onChange={e => setForm(f => ({ ...f, company: e.target.value }))} />
-            </div>
-            <div className="mt-4">
-              <label className="block font-semibold mb-1">Country/Region *</label>
-              <input className="w-full border border-gray-300 p-2 rounded bg-gray-100" value={form.country} disabled />
-            </div>
-            <div className="mt-4">
-              <label className="block font-semibold mb-1">Street address *</label>
-              <input className="w-full border border-gray-300 p-2 rounded" value={form.address} onChange={e => setForm(f => ({ ...f, address: e.target.value }))} />
-              {errors.address && <div className="text-red-600 text-xs mt-1">{errors.address}</div>}
-            </div>
-            <div className="mt-4">
-              <label className="block font-semibold mb-1">Apartment, suite, unit, etc. (optional)</label>
-              <input className="w-full border border-gray-300 p-2 rounded" value={form.address2} onChange={e => setForm(f => ({ ...f, address2: e.target.value }))} />
-            </div>
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block font-semibold mb-1">Town / City *</label>
-                <input className="w-full border border-gray-300 p-2 rounded" value={form.city} onChange={e => setForm(f => ({ ...f, city: e.target.value }))} />
-                {errors.city && <div className="text-red-600 text-xs mt-1">{errors.city}</div>}
-              </div>
-              <div>
-                <label className="block font-semibold mb-1">State *</label>
-                <input className="w-full border border-gray-300 p-2 rounded" value={form.state} onChange={e => setForm(f => ({ ...f, state: e.target.value }))} />
-              </div>
-              <div>
-                <label className="block font-semibold mb-1">PIN Code *</label>
-                <input className="w-full border border-gray-300 p-2 rounded" value={form.pin} onChange={e => setForm(f => ({ ...f, pin: e.target.value }))} />
-                {errors.pin && <div className="text-red-600 text-xs mt-1">{errors.pin}</div>}
-              </div>
-            </div>
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block font-semibold mb-1">Phone *</label>
-                <input className="w-full border border-gray-300 p-2 rounded" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} />
-                {errors.phone && <div className="text-red-600 text-xs mt-1">{errors.phone}</div>}
-              </div>
-              <div>
-                <label className="block font-semibold mb-1">Email address *</label>
-                <input className="w-full border border-gray-300 p-2 rounded" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
+
+              <div className="mb-4">
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Email (Optional)</label>
+                <input
+                  type="email"
+                  placeholder="Enter email for order updates"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-50"
+                  value={form.email}
+                  onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                />
                 {errors.email && <div className="text-red-600 text-xs mt-1">{errors.email}</div>}
               </div>
-            </div>
-            <div className="mt-4">
-              <label className="block font-semibold mb-1">Order notes (optional)</label>
-              <textarea className="w-full border border-gray-300 p-2 rounded" value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} />
-            </div>
-          </section>
 
-          {/* Order Summary & Payment */}
-          <section className="bg-white rounded-lg shadow p-6 mb-6">
-            <h2 className="text-xl font-bold mb-4 text-[#8B4513]">Order Summary</h2>
-            <div className="divide-y divide-gray-200 mb-4">
-              {cart.map((item, i) => (
-                <div key={i} className="flex items-center py-3">
-                  <img src={item.product?.images?.[0] || '/images/placeholder.png'} alt={item.product?.title || ''} className="w-16 h-16 object-cover rounded mr-4 border" />
-                  <div className="flex-1">
-                    <div className="font-semibold text-gray-900">{item.product?.title || ''}</div>
-                    <div className="text-xs text-gray-500">Qty: {item.qty}</div>
-                    {item.product?.mrp && (
-                      <div className="text-xs text-gray-400 line-through">M.R.P. ₹{item.product.mrp.toLocaleString('en-IN')}</div>
-                    )}
-                  </div>
-                  <div className="text-right">
-                    <div className="text-base font-bold text-[#8B4513]">₹{item.price * item.qty}</div>
-                    {item.product?.mrp && item.price < item.product.mrp && (
-                      <div className="text-xs font-bold text-red-600">-{Math.round(((item.product.mrp - item.price) / item.product.mrp) * 100)}% OFF</div>
-                    )}
-                  </div>
+              <div className="mb-4">
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Street Address <span className="text-red-500">*</span></label>
+                <input
+                  type="text"
+                  placeholder="House no., Building, Street, Area"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-50"
+                  value={form.address}
+                  onChange={e => setForm(f => ({ ...f, address: e.target.value }))}
+                />
+                {errors.address && <div className="text-red-600 text-xs mt-1">{errors.address}</div>}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-900 mb-2">City <span className="text-red-500">*</span></label>
+                  <input
+                    type="text"
+                    placeholder="Enter city"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-50"
+                    value={form.city}
+                    onChange={e => setForm(f => ({ ...f, city: e.target.value }))}
+                  />
+                  {errors.city && <div className="text-red-600 text-xs mt-1">{errors.city}</div>}
                 </div>
-              ))}
-            </div>
-            <div className="flex justify-between font-semibold border-t pt-4 mt-4">
-              <span>Subtotal</span>
-              <span>₹{subtotal.toLocaleString('en-IN')}</span>
-            </div>
-            <div className="flex justify-between font-bold border-t pt-2 mt-2">
-              <span>Total</span>
-              <span>₹{subtotal.toLocaleString('en-IN')}</span>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-900 mb-2">Pincode <span className="text-red-500">*</span></label>
+                  <input
+                    type="text"
+                    placeholder="Enter pincode"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-50"
+                    value={form.pin}
+                    onChange={e => setForm(f => ({ ...f, pin: e.target.value }))}
+                  />
+                  {errors.pin && <div className="text-red-600 text-xs mt-1">{errors.pin}</div>}
+                </div>
+              </div>
             </div>
 
-            <div className="mt-6">
-              <label className="block font-semibold mb-2">Payment method</label>
-              <div className="flex gap-4">
-                <label className="inline-flex items-center">
-                  <input type="radio" name="paymentMethod" value="cod" checked={form.paymentMethod==='cod'} onChange={() => setForm(f => ({ ...f, paymentMethod: 'cod' }))} />
-                  <span className="ml-2">Cash on delivery</span>
+            {/* Payment Method Section */}
+            <div className="bg-white border border-gray-200 rounded-lg p-6">
+              <div className="flex items-center gap-3 mb-6">
+                <span className="text-2xl">💳</span>
+                <h2 className="text-2xl font-bold text-gray-900">Payment Method</h2>
+              </div>
+
+              <div className="space-y-3">
+                <label className={`flex items-center gap-4 p-4 border-2 rounded-lg cursor-pointer transition-all ${form.paymentMethod === 'cod' ? 'border-green-600 bg-green-50' : 'border-gray-300 bg-white'}`}>
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="cod"
+                    checked={form.paymentMethod === 'cod'}
+                    onChange={() => setForm(f => ({ ...f, paymentMethod: 'cod' }))}
+                    className="w-5 h-5 accent-green-600"
+                  />
+                  <div className="flex-1">
+                    <p className="font-semibold text-gray-900">Cash on Delivery</p>
+                    <p className="text-sm text-gray-600">Pay when your order is delivered</p>
+                  </div>
                 </label>
-                <label className="inline-flex items-center">
-                  <input type="radio" name="paymentMethod" value="razorpay" checked={form.paymentMethod==='razorpay'} onChange={() => setForm(f => ({ ...f, paymentMethod: 'razorpay' }))} />
-                  <span className="ml-2">Credit/Debit Card/NetBanking</span>
+
+                <label className={`flex items-center gap-4 p-4 border-2 rounded-lg cursor-pointer transition-all ${form.paymentMethod === 'razorpay' ? 'border-green-600 bg-green-50' : 'border-gray-300 bg-white'}`}>
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="razorpay"
+                    checked={form.paymentMethod === 'razorpay'}
+                    onChange={() => setForm(f => ({ ...f, paymentMethod: 'razorpay' }))}
+                    className="w-5 h-5 accent-green-600"
+                  />
+                  <div className="flex-1">
+                    <p className="font-semibold text-gray-900">Credit/Debit Card/NetBanking</p>
+                    <p className="text-sm text-gray-600">Fast and secure payment</p>
+                  </div>
                 </label>
               </div>
             </div>
-            <button type="submit" className="w-full mt-8 px-6 py-3 bg-[#8B4513] hover:bg-[#703810] text-white text-lg font-bold rounded shadow transition-colors" disabled={submitting}>{submitting ? 'Placing order...' : 'Place order'}</button>
-          </section>
+          </div>
+
+          {/* Right Column - Order Summary (1/3 width) */}
+          <div className="lg:col-span-1">
+            <div className="bg-white border border-gray-200 rounded-lg p-6 sticky top-24">
+              <div className="flex items-center gap-3 mb-6">
+                <span className="text-2xl">📦</span>
+                <h2 className="text-2xl font-bold text-gray-900">Order Summary</h2>
+              </div>
+
+              {/* Cart Items */}
+              <div className="space-y-4 mb-6 max-h-96 overflow-y-auto">
+                {cart.map((item, i) => (
+                  <div key={i} className="flex gap-3 pb-4 border-b last:border-b-0">
+                    {item.image && (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-16 h-16 object-cover rounded bg-gray-100"
+                      />
+                    )}
+                    <div className="flex-1">
+                      <p className="font-semibold text-sm text-gray-900">{item.title}</p>
+                      <p className="text-xs text-gray-600 mt-1">{item.weight}</p>
+                      <div className="flex justify-between items-center mt-2">
+                        <span className="text-xs text-gray-600">× {item.qty}</span>
+                        <span className="font-bold text-gray-900">₹{Math.round(item.price * item.qty).toLocaleString('en-IN')}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Pricing Summary */}
+              <div className="space-y-3 pb-4 border-b">
+                <div className="flex justify-between text-sm text-gray-700">
+                  <span>Subtotal</span>
+                  <span>₹{Math.round(subtotal).toLocaleString('en-IN')}</span>
+                </div>
+                <div className="flex justify-between text-sm text-gray-700">
+                  <span>Delivery</span>
+                  <span className="text-green-600 font-semibold">₹40</span>
+                </div>
+              </div>
+
+              <div className="flex justify-between items-center py-4 text-lg font-bold">
+                <span>Total</span>
+                <span className="text-green-600">₹{Math.round(subtotal + 40).toLocaleString('en-IN')}</span>
+              </div>
+
+              <button
+                type="submit"
+                disabled={submitting}
+                className="w-full py-3 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-bold rounded-lg transition-colors mb-4"
+              >
+                {submitting ? 'Processing...' : 'Place Order'}
+              </button>
+
+              <p className="text-xs text-gray-600 text-center">
+                Add ₹454 more for free delivery
+              </p>
+            </div>
+          </div>
         </form>
       </main>
     </div>
