@@ -148,106 +148,205 @@ export default function Checkout() {
     };
 
     return (
-      <div className='bg-[#FDF8F1]'>
-        <main className="max-w-6xl mx-auto p-6 bg-white">
-          {/* Success Message */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-2 text-center">Your order is confirmed</h1>
+      <div className="bg-white min-h-screen">
+        <main className="max-w-6xl mx-auto px-4 py-12">
+          {/* Success Header */}
+          <div className="text-center mb-12">
+            <div className="mb-4 flex justify-center">
+              <div className="bg-green-100 rounded-full p-4">
+                <svg className="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+            </div>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">Your order is confirmed</h1>
             {form.paymentMethod === 'cod' && (
-              <p className="text-center text-gray-600 mb-2">COD Collection fee Rs.  ₹{subtotal.toLocaleString('en-IN')}  is applicable.</p>
+              <p className="text-gray-600 text-lg">COD Collection fee Rs. ₹{subtotal.toLocaleString('en-IN')} is applicable.</p>
             )}
           </div>
 
-          {/* Order Details Card */}
-          <div className="border border-gray-300 rounded-lg p-8 space-y-8">
-            
-            {/* Order Details Section */}
-            <div>
-              <h2 className="text-xl font-bold mb-4">Order details</h2>
-              <div className="space-y-3">
-                {cart.map((item, idx) => (
-                  <div key={idx} className="flex justify-between border-b pb-3">
-                    <div className="flex-1">
-                      <p className="font-semibold">{item.product?.title || item.name || 'Product'}</p>
-                      <p className="text-gray-600 text-sm">Quantity: {item.qty}</p>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left Column - Order & Shipping Details (2/3) */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Order Details Card */}
+              <div className="bg-white border border-gray-200 rounded-lg p-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="text-2xl">📦</span>
+                  <h2 className="text-2xl font-bold text-gray-900">Order Details</h2>
+                </div>
+
+                <div className="space-y-4 mb-6">
+                  {cart.map((item, idx) => (
+                    <div key={idx} className="flex items-center gap-4 pb-4 border-b last:border-b-0">
+                      {item.image && (
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          className="w-20 h-20 object-cover rounded bg-gray-100"
+                        />
+                      )}
+                      <div className="flex-1">
+                        <p className="font-semibold text-gray-900">{item.title}</p>
+                        <p className="text-sm text-gray-600 mt-1">{item.weight}</p>
+                        <div className="flex justify-between items-center mt-3">
+                          <span className="text-sm text-gray-600">Quantity: <span className="font-bold">{item.qty}</span></span>
+                          <span className="font-bold text-gray-900">₹{Math.round(item.price * item.qty).toLocaleString('en-IN')}</span>
+                        </div>
+                      </div>
                     </div>
-                    <p className="font-semibold">₹{(item.price * item.qty).toLocaleString('en-IN')}</p>
+                  ))}
+                </div>
+
+                <div className="border-t pt-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-lg font-bold text-gray-900">Total:</span>
+                    <span className="text-2xl font-bold text-green-600">₹{subtotal.toLocaleString('en-IN')} INR</span>
                   </div>
-                ))}
-                <div className="flex justify-between font-bold text-lg pt-4">
-                  <span>Total:</span>
-                  <span>₹{subtotal.toLocaleString('en-IN')} INR</span>
+                </div>
+              </div>
+
+              {/* Contact Information */}
+              <div className="bg-white border border-gray-200 rounded-lg p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-2xl">📧</span>
+                  <h3 className="text-xl font-bold text-gray-900">Contact Information</h3>
+                </div>
+                <p className="text-gray-700">{form.email || 'Not provided'}</p>
+              </div>
+
+              {/* Shipping Address */}
+              <div className="bg-white border border-gray-200 rounded-lg p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-2xl">🚚</span>
+                  <h3 className="text-xl font-bold text-gray-900">Shipping Address</h3>
+                </div>
+                <div className="text-gray-700 space-y-2 bg-gray-50 p-4 rounded">
+                  <p className="font-semibold text-gray-900">{form.firstName} {form.lastName}</p>
+                  <p>{form.address} {form.address2 ? form.address2 + ',' : ''}</p>
+                  <p>{form.city}, {form.state} {form.pin}</p>
+                  <p>{form.country}</p>
+                  <p className="font-semibold text-gray-900 pt-2">📞 {form.phone}</p>
+                </div>
+              </div>
+
+              {/* Payment Method */}
+              <div className="bg-white border border-gray-200 rounded-lg p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-2xl">💳</span>
+                  <h3 className="text-xl font-bold text-gray-900">Payment Method</h3>
+                </div>
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <p className="text-gray-900 font-semibold">
+                    {form.paymentMethod === 'cod' 
+                      ? '💰 Cash on Delivery (COD)' 
+                      : '🛡️ Online Payment (Razorpay)'}
+                  </p>
+                  <p className="text-gray-700 text-sm mt-1">
+                    Amount: ₹{subtotal.toLocaleString('en-IN')} INR
+                  </p>
+                </div>
+              </div>
+
+              {/* Billing Address */}
+              <div className="bg-white border border-gray-200 rounded-lg p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-2xl">📋</span>
+                  <h3 className="text-xl font-bold text-gray-900">Billing Address</h3>
+                </div>
+                <div className="text-gray-700 space-y-2 bg-gray-50 p-4 rounded">
+                  <p className="font-semibold text-gray-900">{form.firstName} {form.lastName}</p>
+                  <p>{form.address} {form.address2 ? form.address2 + ',' : ''}</p>
+                  <p>{form.city}, {form.state} {form.pin}</p>
+                  <p>{form.country}</p>
+                  <p className="font-semibold text-gray-900 pt-2">📞 {form.phone}</p>
                 </div>
               </div>
             </div>
 
-            {/* Contact Information */}
-            <div>
-              <h3 className="text-lg font-bold mb-3">Contact information</h3>
-              <p className="text-gray-700">{form.email}</p>
-            </div>
+            {/* Right Column - Order ID & Actions (1/3) */}
+            <div className="lg:col-span-1">
+              <div className="bg-white border border-gray-200 rounded-lg p-6 sticky top-24 space-y-6">
+                {/* Order ID Card */}
+                <div className="bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-lg p-6 text-center">
+                  <p className="text-sm font-semibold text-gray-600 mb-2">Order Number</p>
+                  <p className="text-3xl font-bold text-green-700 font-mono break-all">{orderId}</p>
+                  <p className="text-xs text-gray-600 mt-3">Keep this for your records</p>
+                </div>
 
-            {/* Shipping Address */}
-            <div>
-              <h3 className="text-lg font-bold mb-3">Shipping address</h3>
-              <div className="text-gray-700 space-y-1">
-                <p className="font-semibold">{form.firstName} {form.lastName}</p>
-                <p>{form.address} {form.address2 ? form.address2 + ',' : ''}</p>
-                <p>{form.city} {form.state} {form.pin}</p>
-                <p>{form.country}</p>
-                <p className="font-semibold">{form.phone}</p>
+                {/* Status Timeline */}
+                <div className="space-y-3">
+                  <div className="flex gap-3">
+                    <div className="flex-shrink-0">
+                      <div className="flex items-center justify-center h-8 w-8 rounded-full bg-green-600 text-white">
+                        ✓
+                      </div>
+                    </div>
+                    <div className="flex-grow">
+                      <p className="font-semibold text-gray-900">Order Confirmed</p>
+                      <p className="text-sm text-gray-600">Your order has been received</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-3">
+                    <div className="flex-shrink-0">
+                      <div className="flex items-center justify-center h-8 w-8 rounded-full bg-gray-300 text-white">
+                        📦
+                      </div>
+                    </div>
+                    <div className="flex-grow">
+                      <p className="font-semibold text-gray-900">Processing</p>
+                      <p className="text-sm text-gray-600">We are preparing your order</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-3">
+                    <div className="flex-shrink-0">
+                      <div className="flex items-center justify-center h-8 w-8 rounded-full bg-gray-300 text-white">
+                        🚚
+                      </div>
+                    </div>
+                    <div className="flex-grow">
+                      <p className="font-semibold text-gray-900">On the Way</p>
+                      <p className="text-sm text-gray-600">Your order is being delivered</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-3">
+                    <div className="flex-shrink-0">
+                      <div className="flex items-center justify-center h-8 w-8 rounded-full bg-gray-300 text-white">
+                        ✋
+                      </div>
+                    </div>
+                    <div className="flex-grow">
+                      <p className="font-semibold text-gray-900">Delivered</p>
+                      <p className="text-sm text-gray-600">Order completed</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="space-y-3 pt-6 border-t">
+                  <button
+                    onClick={() => router.push('/')}
+                    className="w-full py-3 bg-gray-700 hover:bg-gray-800 text-white font-bold rounded-lg transition-colors"
+                  >
+                    Back to Home
+                  </button>
+                  <button
+                    onClick={() => router.push('/products')}
+                    className="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition-colors"
+                  >
+                    Continue Shopping
+                  </button>
+                </div>
+
+                {/* Help Section */}
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <p className="text-sm font-semibold text-blue-900 mb-2">Need Help?</p>
+                  <p className="text-xs text-blue-800 mb-3">Contact our customer support team</p>
+                  <a href="https://wa.me/919876543210" className="inline-block w-full text-center py-2 bg-green-600 hover:bg-green-700 text-white rounded text-sm font-semibold transition-colors">
+                    WhatsApp Support
+                  </a>
+                </div>
               </div>
             </div>
-
-            {/* Shipping Method */}
-            <div>
-              <h3 className="text-lg font-bold mb-3">Shipping method</h3>
-              <p className="text-gray-700">Standard</p>
-            </div>
-
-            {/* Payment Method */}
-            <div>
-              <h3 className="text-lg font-bold mb-3">Payment method</h3>
-              <p className="text-gray-700">
-                {form.paymentMethod === 'cod' 
-                  ? `Cash on Delivery (COD) · ₹${subtotal.toLocaleString('en-IN')} INR` 
-                  : `Credit Card/Debit Card/NetBanking (Razorpay) · ₹${subtotal.toLocaleString('en-IN')} INR`}
-              </p>
-            </div>
-
-            {/* Billing Address (same as shipping) */}
-            <div>
-              <h3 className="text-lg font-bold mb-3">Billing address</h3>
-              <div className="text-gray-700 space-y-1">
-                <p className="font-semibold">{form.firstName} {form.lastName}</p>
-                <p>{form.address} {form.address2 ? form.address2 + ',' : ''}</p>
-                <p>{form.city} {form.state} {form.pin}</p>
-                <p>{form.country}</p>
-                <p className="font-semibold">{form.phone}</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Order ID Info */}
-          {/* <div className="mt-8 text-center bg-gray-50 p-4 rounded">
-            <p className="text-gray-600">Order Number</p>
-            <p className="text-2xl font-bold text-gray-900 font-mono">{orderId}</p>
-          </div> */}
-
-          {/* Action Buttons */}
-          <div className="mt-8 flex gap-4 justify-center">
-            <button 
-              className="px-6 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
-              onClick={() => router.push('/')}
-            >
-              Back to Home
-            </button>
-            <button 
-              className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-              onClick={() => router.push('/products')}
-            >
-              Continue Shopping
-            </button>
           </div>
         </main>
       </div>
