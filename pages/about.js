@@ -10,7 +10,7 @@ export default function About() {
   return (
     <div className="min-h-screen flex flex-col bg-[#FDF8F1]">
       <Head>
-        <title>About Us - Our Heritage & Mission | Minukki Sarees</title>
+        <title>About Us - Our Heritage & Mission | Priyam Super Market</title>
         <meta name="description" content="Learn about our heritage, values, and commitment to preserving traditional Kerala saree craftsmanship. Discover our journey and mission." />
         <meta name="keywords" content="about sarees, Kerala heritage, handloom tradition, saree craftsmanship" />
         <meta name="robots" content="index, follow" />
@@ -18,7 +18,7 @@ export default function About() {
         {/* Open Graph */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://minukki.in/about" />
-        <meta property="og:title" content="About Us - Our Heritage & Mission | Minukki Sarees" />
+        <meta property="og:title" content="About Us - Our Heritage & Mission | Priyam Super Market" />
         <meta property="og:description" content="Learn about our heritage, values, and commitment to preserving traditional Kerala saree craftsmanship." />
 
         {/* Canonical */}

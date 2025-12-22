@@ -61,7 +61,7 @@ export default function Products({ products }) {
   return (
     <div className="min-h-screen flex flex-col">
       <Head>
-        <title>Our Collections | Traditional Sarees - Minukki Sarees</title>
+        <title>Our Collections | Traditional Sarees - Priyam Super Market</title>
         <meta name="description" content="Explore our beautiful collection of traditional and modern sarees. Browse by category: Kasavu, Tissue, Silk, Designer, Handloom sarees and more." />
         <meta name="keywords" content="saree collections, traditional sarees, modern sarees, Kasavu, Tissue sarees, Designer sarees" />
         <meta name="robots" content="index, follow" />
@@ -69,7 +69,7 @@ export default function Products({ products }) {
         {/* Open Graph */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://minukki.in/products" />
-        <meta property="og:title" content="Our Collections | Traditional Sarees - Minukki Sarees" />
+        <meta property="og:title" content="Our Collections | Traditional Sarees - Priyam Super Market" />
         <meta property="og:description" content="Explore our beautiful collection of traditional and modern sarees." />
 
         {/* Canonical */}
@@ -83,8 +83,7 @@ export default function Products({ products }) {
 
       <main className="flex-grow container-fluid  px-4 py-8 bg-[#FDF8F1]">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4">Our Collections</h1>
-          <p className="text-gray-600">Discover our exquisite range of handpicked sarees</p>
+          <h1 className="text-4xl font-bold mb-4">Select a Category</h1>
         </div>
 
         {/* Category Filter */}

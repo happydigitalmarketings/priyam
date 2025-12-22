@@ -8,7 +8,7 @@ export default function Blog({ posts }) {
   return (
     <div className="min-h-screen bg-white pt-4">
       <Head>
-        <title>Blog | Minukki Sarees</title>
+        <title>Blog | Priyam Super Market</title>
         <meta name="description" content="Discover the elegance of Indian sarees through our curated articles" />
       </Head>
 

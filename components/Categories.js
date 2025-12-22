@@ -17,11 +17,10 @@ export default function Categories() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center mb-12">
           <h2 className="text-3xl font-bold text-gray-800">Shop by Category</h2>
-          <Link href="/categories" className="text-green-600 font-semibold hover:text-green-700">
+          <Link href="/products" className="text-green-600 font-semibold hover:text-green-700">
             View All →
           </Link>
         </div>
-        
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
           {categories.map((category, idx) => (
             <Link 

@@ -36,10 +36,7 @@ export default function Home({products}){
               <div>
                 <h2 className="text-3xl font-bold text-gray-800">Popular Products</h2>
                 <p className="text-gray-600 text-sm mt-2">12 products available</p>
-              </div>
-              <Link href="/products" className="text-green-600 font-semibold hover:text-green-700">
-                View All →
-              </Link>
+              </div>             
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
