@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function HeroBanner() {
   return (
@@ -38,20 +39,27 @@ export default function HeroBanner() {
 
           {/* Right Image */}
           <div className="relative">
-            <div className="bg-gradient-to-br from-green-100 to-yellow-100 rounded-3xl p-8 relative overflow-hidden">
+            <div className="bg-gradient-to-br from-green-100 to-yellow-100 rounded-3xl p-8 relative overflow-hidden shadow-lg">
               {/* Discount Badge */}
-              <div className="absolute top-6 right-6 bg-yellow-400 rounded-full w-20 h-20 flex items-center justify-center text-center z-10">
+              <div className="absolute top-6 right-6 bg-yellow-400 rounded-full w-24 h-24 flex items-center justify-center text-center z-10 shadow-lg">
                 <div>
-                  <p className="text-sm font-bold text-gray-800">50% OFF</p>
+                  <p className="text-lg font-bold text-gray-800">50%</p>
+                  <p className="text-xs font-bold text-gray-800">OFF</p>
                 </div>
               </div>
 
-              {/* Product Image Placeholder */}
-              <div className="w-full h-80 bg-gradient-to-b from-green-300 to-green-200 rounded-2xl flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-8xl mb-4">🥬🍎🥕🧅🥦</div>
-                  <p className="text-gray-700 font-semibold text-lg">Fresh Vegetables & Fruits</p>
-                </div>
+              {/* Product Image */}
+              <div className="relative w-full h-80 rounded-2xl overflow-hidden">
+                <Image
+                  src="/images/banner/vegetables-shelf.jpg"
+                  alt="Fresh Vegetables & Fruits"
+                  fill
+                  className="object-cover"
+                  priority
+                  onError={(e) => {
+                    e.currentTarget.src = "/images/banner/1.jpg";
+                  }}
+                />
               </div>
             </div>
           </div>
