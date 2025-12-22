@@ -15,10 +15,10 @@ export default function Blog({ posts }) {
       <div className="bg-[#8B4513]/5 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-bold text-[#8B4513] text-center">
-            Blog & Style Guide
+            Blog & Tips
           </h1>
           <p className="mt-4 text-lg text-gray-600 text-center max-w-3xl mx-auto">
-            Explore our collection of articles about saree styling, care tips, and the rich heritage of Indian textiles
+            Explore our collection of articles about fresh groceries, cooking tips, healthy recipes, and product selection guides
           </p>
         </div>
       </div>
