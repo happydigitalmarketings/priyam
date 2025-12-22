@@ -67,12 +67,12 @@ export default function AdminLayout({ children, user, activeMenu }) {
         {/* Logo */}
         <div className="px-6 py-6 border-b border-gray-200">
           <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-[#8B4513] to-[#703810] rounded-lg flex items-center justify-center text-white font-bold text-lg">
-              M
+            <div className="w-10 h-10 bg-gradient-to-br from-green-600 to-green-700 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+              P
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">Minukki</h1>
-              <p className="text-xs text-gray-500">Admin</p>
+              <h1 className="text-xl font-bold text-gray-900">Priyam</h1>
+              <p className="text-xs text-gray-500">Admin Panel</p>
             </div>
           </div>
         </div>
@@ -90,7 +90,7 @@ export default function AdminLayout({ children, user, activeMenu }) {
                 }}
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
                   isActive
-                    ? 'bg-[#8B4513] text-white'
+                    ? 'bg-green-600 text-white'
                     : 'text-gray-600 hover:bg-gray-100'
                 }`}
               >
@@ -143,7 +143,7 @@ export default function AdminLayout({ children, user, activeMenu }) {
               href="/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 hover:text-[#8B4513] transition"
+              className="hidden sm:flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 hover:text-green-600 transition"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -167,7 +167,7 @@ export default function AdminLayout({ children, user, activeMenu }) {
               </div>
               <button
                 onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-                className="w-10 h-10 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white font-semibold text-sm hover:shadow-lg transition"
+                className="w-10 h-10 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center text-white font-semibold text-sm hover:shadow-lg transition"
               >
                 {(typeof user?.name === 'string' ? user.name : (user?.name?.name || 'A')).charAt(0).toUpperCase()}
               </button>
@@ -177,7 +177,7 @@ export default function AdminLayout({ children, user, activeMenu }) {
                 <div className="absolute right-0 top-16 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
                   <div className="px-4 py-3 border-b border-gray-200">
                     <p className="text-sm font-medium text-gray-900">{typeof user?.name === 'string' ? user.name : (user?.name?.name || 'Admin')}</p>
-                    <p className="text-xs text-gray-500">{user?.email || 'admin@minukki.com'}</p>
+                    <p className="text-xs text-gray-500">{user?.email || 'admin@priyamsupermarket.com'}</p>
                   </div>
             
                   <div className="border-t border-gray-200 py-2">
